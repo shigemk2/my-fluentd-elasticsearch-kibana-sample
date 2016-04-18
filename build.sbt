@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
+  "org.fluentd" % "fluent-logger-scala_2.11" % "0.5.1",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 
