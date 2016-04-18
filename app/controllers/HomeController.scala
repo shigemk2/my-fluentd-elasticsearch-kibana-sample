@@ -1,8 +1,12 @@
 package controllers
 
 import javax.inject._
+
+import org.fluentd.logger.scala.FluentLoggerFactory
 import play.api._
 import play.api.mvc._
+
+import scala.collection.mutable
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -18,6 +22,11 @@ class HomeController @Inject() extends Controller {
    * a path of `/`.
    */
   def index = Action {
+    val LOG = FluentLoggerFactory.getLogger("application.access")
+    val data = new mutable.HashMap[String, String]();
+    data.put("from", "userA");
+    data.put("to", "userB");
+    LOG.log("follow", data);
     Ok(views.html.index("Your new application is ready."))
   }
 
