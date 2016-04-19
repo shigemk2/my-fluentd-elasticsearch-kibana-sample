@@ -12,7 +12,8 @@ RUN apk --no-cache --update add \
                             ruby-dev \
                             bash gawk sed grep bc coreutils && \
     echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install fluentd -v 0.12.20 && \
+    gem install fluentd && \
+    gem install fluent-plugin-elasticsearch && \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 

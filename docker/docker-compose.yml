@@ -3,3 +3,19 @@ fluentd:
   ports:
     - 24224:24224/tcp
     - 24224:24224/udp
+elasticsearch:
+  image: elasticsearch:1.5.2
+  volumes:
+    - /es/plugins:/usr/share/elasticsearch/plugins
+  volumes_from:
+    - container
+  ports:
+    - 9200:9200
+    - 9300:9300
+
+kibana:
+  image: kibana:4.0.3
+  environment:
+    - ELASTICSEARCH_URL=http://192.168.99.100:9200
+  ports:
+    - 5601:5601
