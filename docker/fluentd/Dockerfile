@@ -9,9 +9,10 @@ RUN apk --no-cache --update add \
                             ca-certificates \
                             ruby \
                             ruby-irb \
-                            ruby-dev && \
+                            ruby-dev \
+                            bash gawk sed grep bc coreutils && \
     echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install fluentd -v 0.12.21 && \
+    gem install fluentd -v 0.12.20 && \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
@@ -19,10 +20,11 @@ RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
 
 # for log storage (maybe shared with host)
-RUN mkdir -p /fluentd/log
-
-# configuration/plugins path (default: copied from .)
-RUN mkdir -p /fluentd/etc /fluentd/plugins /fluentd/buffer
+RUN mkdir -p /fluentd/conf && \
+    mkdir -p /fluentd/etc && \
+    mkdir -p /fluentd/buffer && \
+    mkdir -p /fluentd/dest && \
+    mkdir -p /fluentd/plugins
 
 RUN chown -R fluent:fluent /fluentd
 
@@ -33,13 +35,16 @@ WORKDIR /home/fluent
 RUN echo "gem: --user-install --no-document" >> ~/.gemrc
 ENV PATH /home/fluent/.gem/ruby/2.2.0/bin:$PATH
 ENV GEM_PATH /home/fluent/.gem/ruby/2.2.0:$GEM_PATH
+ENV LANG ja_JP.UTF-8
+
+ENV FLUENTD_OPT=""
+ENV FLUENTD_CONF="/fluentd/conf/fluent.conf"
+ENV RUBY_GC_MALLOC_LIMIT=2000000
+ENV RUBY_GC_MALLOC_LIMIT_MAX=4000000
 
 COPY conf/* /fluentd/conf/
 ONBUILD COPY conf/* /fluentd/conf/
 ONBUILD COPY plugins/* /fluentd/plugins/
-
-ENV FLUENTD_OPT=""
-ENV FLUENTD_CONF="/fluentd/conf/fluent-worker.conf"
 
 EXPOSE 24224
 
