@@ -3,7 +3,6 @@ package controllers
 import javax.inject._
 
 import org.fluentd.logger.scala.FluentLoggerFactory
-import play.api._
 import play.api.mvc._
 
 import scala.collection.mutable
