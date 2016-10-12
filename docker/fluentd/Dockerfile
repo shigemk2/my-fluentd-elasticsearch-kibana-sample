@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.4
 LABEL Description="Fluentd docker image" Vendor="Fluent Organization" Version="1.1"
 
 # Do not split this into multiple RUN!
@@ -12,7 +12,8 @@ RUN apk --no-cache --update add \
                             ruby-dev \
                             bash gawk sed grep bc coreutils && \
     echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install fluentd && \
+    gem install oj && \
+    gem install fluentd -v 0.12.29 && \
     gem install fluent-plugin-elasticsearch && \
     gem install json && \
     apk del build-base ruby-dev && \
@@ -35,8 +36,8 @@ WORKDIR /home/fluent
 
 # Tell ruby to install packages as user
 RUN echo "gem: --user-install --no-document" >> ~/.gemrc
-ENV PATH /home/fluent/.gem/ruby/2.2.0/bin:$PATH
-ENV GEM_PATH /home/fluent/.gem/ruby/2.2.0:$GEM_PATH
+ENV PATH /home/fluent/.gem/ruby/2.3.0/bin:$PATH
+ENV GEM_PATH /home/fluent/.gem/ruby/2.3.0:$GEM_PATH
 ENV LANG ja_JP.UTF-8
 
 ENV FLUENTD_OPT=""
