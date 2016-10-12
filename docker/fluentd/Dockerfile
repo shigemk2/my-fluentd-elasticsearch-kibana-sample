@@ -14,6 +14,7 @@ RUN apk --no-cache --update add \
     echo 'gem: --no-document' >> /etc/gemrc && \
     gem install fluentd && \
     gem install fluent-plugin-elasticsearch && \
+    gem install json && \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
