@@ -21,7 +21,7 @@ class HomeController @Inject() extends Controller {
    * a path of `/`.
    */
   def index = Action {
-    val LOG = FluentLoggerFactory.getLogger("fluentd.test.access", "192.168.99.100", 24224)
+    val LOG = FluentLoggerFactory.getLogger("fluentd.test.access", "127.0.0.1", 24224)
     val data = new mutable.HashMap[String, String]();
     data.put("from", "userA");
     data.put("to", "userB");
